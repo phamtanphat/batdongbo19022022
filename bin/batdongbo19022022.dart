@@ -1,7 +1,9 @@
 import 'dart:async';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+
 
 void main(List<String> arguments) {
-
   // Future
   // Cach 1
 
@@ -16,23 +18,18 @@ void main(List<String> arguments) {
   // });
 
   //Cach 2
-  handle().then((value){
-    print(value);
-  });
-}
+  // handle().then((value){
+  //   print(value);
+  // });
 
-Future<int> handle(){
-  var completer = Completer<int>();
-  Future.delayed(Duration(seconds: 1),(){
-    return 5;
-  }).then((value){
-    Future.delayed(Duration(seconds: 2), (){
-      return value + 2;
-    }).then((value2){
-      completer.complete(value2);
-    });
-  });
-  return completer.future;
-}
 
+  var url = Uri.parse('http://api.openweathermap.org/data/2.5/weather?appid=86183a23377ed034aef7aad102f43d64&units=metric&q=Hanoi');
+  http.get(url)
+  .then((response) => jsonDecode(response.body))
+  .then((value) => print(value['name']))
+  .catchError((error) => print(error));
+
+
+
+}
 
