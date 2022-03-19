@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:ffi';
 import 'package:http/http.dart' as http;
 
 
@@ -22,26 +23,58 @@ void main(List<String> arguments) {
   //   print(value);
   // });
 
-  getTempCity(cityName: 'Hanoi')
-      .then((temp) => print(temp))
-      .catchError((error) => print(error));
+  // getTempCity(cityName: 'Hanoi')
+  //     .then((temp) => print(temp))
+  //     .catchError((error) => print(error));
+
+  // =======================================
+
+  // Stream
+
+  // Future
+  // var future = Future.delayed(Duration(seconds: 1),() => 1);
+  //
+  // var stream = Stream.fromFuture(future);
+  //
+  // stream.listen((data) {
+  //   print(data);
+  // });
+
+  // Iterable
+
+  // var iterable = Iterable.generate(20 ,(index) => index);
+  //
+  // var stream = Stream.fromIterable(iterable);
+  //
+  // stream.listen((data) {
+  //   print(data);
+  // });
+
+  // periodic
+
+  var stream = Stream.periodic(Duration(seconds: 1),(count) => count);
+
+  stream.take(10).listen((data) {
+    print(data);
+  });
+
 }
 
-Future<int> getTempCity({required String cityName}) async{
-  var completer = Completer<int>();
-  var url = Uri.parse('http://api.openweathermap.org/data/2.5/weather?appid=86183a23377ed034aef7aad102f43d64&units=metric&q=$cityName');
-
-  try{
-    var response = await http.get(url);
-    var json = jsonDecode(response.body);
-    if(json['cod'] == '404'){
-      completer.completeError(json['message']);
-    }else{
-      completer.complete(json['main']['temp']);
-    }
-  }catch(e){
-    completer.completeError(e);
-  }
-  return completer.future;
-}
+// Future<int> getTempCity({required String cityName}) async{
+//   var completer = Completer<int>();
+//   var url = Uri.parse('http://api.openweathermap.org/data/2.5/weather?appid=86183a23377ed034aef7aad102f43d64&units=metric&q=$cityName');
+//
+//   try{
+//     var response = await http.get(url);
+//     var json = jsonDecode(response.body);
+//     if(json['cod'] == '404'){
+//       completer.completeError(json['message']);
+//     }else{
+//       completer.complete(json['main']['temp']);
+//     }
+//   }catch(e){
+//     completer.completeError(e);
+//   }
+//   return completer.future;
+// }
 
