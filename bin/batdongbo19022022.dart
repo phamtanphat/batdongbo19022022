@@ -52,10 +52,23 @@ void main(List<String> arguments) {
 
   // periodic
 
-  var stream = Stream.periodic(Duration(seconds: 1),(count) => count);
+  // var stream = Stream.periodic(Duration(seconds: 1),(count) => count);
+  //
+  // stream.take(10).listen((data) {
+  //   print(data);
+  // });
 
-  stream.take(10).listen((data) {
+  StreamController<int> intController = StreamController();
+
+  // sink them du lieu vao cho streamcontroller
+  intController.sink.add(1);
+  // stream lang nghe du lieu
+  intController.stream.listen((data) {
     print(data);
+  });
+
+  Future.delayed(Duration(seconds: 3),(){
+    intController.sink.add(5);
   });
 
 }
